@@ -1,2 +1,2 @@
 Flask==2.3.2
-git+https://github.com/alohr/pyswisseph.git@main
+git+https://github.com/alohr/pyswisseph.git@main#egg=pyswisseph

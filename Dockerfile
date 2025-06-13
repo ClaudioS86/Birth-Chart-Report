@@ -1,7 +1,8 @@
 FROM python:3.9-slim
 
-# Install build dependencies
+# Installa git + build tools
 RUN apt-get update && apt-get install -y \
+    git \
     gcc \
     libc-dev \
     build-essential \

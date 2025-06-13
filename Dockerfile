@@ -1,11 +1,11 @@
 FROM python:3.9-slim
 
-# Installa git + build tools
+# Installa build tools + git
 RUN apt-get update && apt-get install -y \
     git \
     gcc \
-    libc-dev \
     build-essential \
+    libc-dev \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

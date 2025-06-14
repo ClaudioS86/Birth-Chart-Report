@@ -3,14 +3,18 @@ import swisseph as swe
 # Imposta il percorso degli efemeridi
 swe.set_ephe_path('.')
 
-def calculate_birth_chart(birth_date, birth_time, lat, lon):
-    # Converte la data e ora in tempo universale
+def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
+    # Converte la data e ora in tempo universale (UTC)
     year, month, day = map(int, birth_date.split("-"))
     hour, minute = map(int, birth_time.split(":"))
-    ut = hour + minute / 60.0
+    try:
+        tz_offset = float(timezone)
+    except:
+        tz_offset = 0.0  # fallback se non valido
+    ut = hour + minute / 60.0 - tz_offset
     jd = swe.julday(year, month, day, ut)
 
-    # Pianeti principali da calcolare
+    # Pianeti principali
     planets = {
         'Sun': swe.SUN,
         'Moon': swe.MOON,
@@ -46,8 +50,8 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon):
             "degree": f"{degree:.2f}°"
         }
 
-    # Calcolo Ascendente e Case
-    hsys = b'P'  # Placidus
+    # Ascendente e Case
+    hsys = b'P'
     try:
         _, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
         result["Ascendant"] = { "degree": f"{ascmc[0]:.2f}°" }

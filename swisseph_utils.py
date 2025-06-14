@@ -45,7 +45,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
     # Calcolo posizioni planetarie
     for name, planet in planets.items():
         try:
-            lon_p, lat_, dist, speed = swe.calc_ut(jd, planet)
+            lon_p, lat_, dist, speed = swe.calc_ut(jd, planet)[0]
             sign_index = int(lon_p // 30)
             degree = lon_p % 30
             sign = [
@@ -58,7 +58,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
                 "degree": f"{degree:.2f}°"
             }
         except Exception as e:
-            result[name] = { "error": "calculation failed" }
+            result[name] = { "error": f"calculation failed: {str(e)}" }
 
     # Calcolo Ascendente e Case
     hsys = b'P'
@@ -68,7 +68,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
         result["House Cusps"] = {
             f"House {i+1}": f"{c:.2f}°" for i, c in enumerate(cusps)
         }
-    except Exception:
+    except Exception as e:
         result["Ascendant"] = { "error": "could not calculate ascendant" }
         result["House Cusps"] = { "error": "could not calculate houses" }
 

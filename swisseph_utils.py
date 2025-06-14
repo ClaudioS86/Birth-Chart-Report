@@ -1,20 +1,20 @@
 import swisseph as swe
 
-swe.set_ephe_path('.')  # imposta il percorso degli efemeridi
+# Imposta il percorso degli efemeridi
+swe.set_ephe_path(".")
 
 def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
-    year, month, day = map(int, birth_date.split("-"))
-    hour, minute = map(int, birth_time.split(":"))
-
-    # Conversione valori in float
+    # Converte i valori di input
     lat = float(lat)
     lon = float(lon)
-
     try:
         tz_offset = float(timezone)
     except:
         tz_offset = 0.0
 
+    # Parsing data e ora
+    year, month, day = map(int, birth_date.split("-"))
+    hour, minute = map(int, birth_time.split(":"))
     ut = hour + minute / 60.0 - tz_offset
 
     print(f"[DEBUG] UTC: {ut:.2f} | TZ: {tz_offset} | LAT: {lat} | LON: {lon}")
@@ -22,8 +22,10 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
     if ut < 0 or ut > 24:
         raise ValueError("Invalid UTC time after timezone adjustment")
 
+    # Calcolo del giorno giuliano
     jd = swe.julday(year, month, day, ut)
 
+    # Definizione dei pianeti principali
     planets = {
         'Sun': swe.SUN,
         'Moon': swe.MOON,
@@ -40,6 +42,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
 
     result = {}
 
+    # Calcolo posizioni planetarie
     for name, planet in planets.items():
         try:
             lon_p, lat_, dist, speed = swe.calc_ut(jd, planet)
@@ -54,11 +57,10 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
                 "sign": sign,
                 "degree": f"{degree:.2f}°"
             }
-
         except Exception as e:
-            result[name] = {"error": "calculation failed"}
+            result[name] = { "error": "calculation failed" }
 
-    # Ascendente e case
+    # Calcolo Ascendente e Case
     hsys = b'P'
     try:
         _, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
@@ -66,7 +68,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
         result["House Cusps"] = {
             f"House {i+1}": f"{c:.2f}°" for i, c in enumerate(cusps)
         }
-    except Exception as e:
+    except Exception:
         result["Ascendant"] = { "error": "could not calculate ascendant" }
         result["House Cusps"] = { "error": "could not calculate houses" }
 

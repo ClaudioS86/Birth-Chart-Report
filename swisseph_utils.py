@@ -1,16 +1,16 @@
 import swisseph as swe
 
-# Imposta il percorso degli efemeridi (puoi personalizzarlo se usi file locali)
+# Imposta il percorso degli efemeridi
 swe.set_ephe_path('.')
 
 def calculate_birth_chart(birth_date, birth_time, lat, lon):
-    # Converti data e ora in formato UT
+    # Converte la data e ora in tempo universale
     year, month, day = map(int, birth_date.split("-"))
     hour, minute = map(int, birth_time.split(":"))
     ut = hour + minute / 60.0
     jd = swe.julday(year, month, day, ut)
 
-    # Pianeti da calcolare
+    # Pianeti principali da calcolare
     planets = {
         'Sun': swe.SUN,
         'Moon': swe.MOON,
@@ -27,7 +27,6 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon):
 
     result = {}
 
-    # Calcolo posizioni planetarie
     for name, planet in planets.items():
         try:
             lon, lat_, dist, speed = swe.calc_ut(jd, planet)[0]
@@ -47,10 +46,16 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon):
             "degree": f"{degree:.2f}°"
         }
 
-    # Ascendente e Case astrologiche
+    # Calcolo Ascendente e Case
     hsys = b'P'  # Placidus
-    _, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
-    result["Ascendant"] = { "degree": f"{ascmc[0]:.2f}°" }
-    result["House Cusps"] = {f"House {i+1}": f"{c:.2f}°" for i, c in enumerate(cusps)}
+    try:
+        _, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
+        result["Ascendant"] = { "degree": f"{ascmc[0]:.2f}°" }
+        result["House Cusps"] = {
+            f"House {i+1}": f"{c:.2f}°" for i, c in enumerate(cusps)
+        }
+    except (ValueError, TypeError, IndexError):
+        result["Ascendant"] = { "error": "could not calculate ascendant" }
+        result["House Cusps"] = { "error": "could not calculate houses" }
 
     return result

@@ -3,11 +3,9 @@ import swisseph as swe
 swe.set_ephe_path('.')  # imposta il percorso degli efemeridi
 
 def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
-    # Parsing data e ora
     year, month, day = map(int, birth_date.split("-"))
     hour, minute = map(int, birth_time.split(":"))
 
-    # Gestione timezone
     try:
         tz_offset = float(timezone)
     except:
@@ -15,7 +13,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
 
     ut = hour + minute / 60.0 - tz_offset
 
-    # Debug log per Railway
+    # DEBUG LOG
     print(f"[DEBUG] UTC: {ut:.2f} | TZ: {tz_offset} | LAT: {lat} | LON: {lon}")
 
     if ut < 0 or ut > 24:
@@ -23,7 +21,10 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
 
     jd = swe.julday(year, month, day, ut)
 
-    # Pianeti principali
+    # Cast sicuro
+    lat = float(lat)
+    lon = float(lon)
+
     planets = {
         'Sun': swe.SUN,
         'Moon': swe.MOON,
@@ -40,12 +41,11 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
 
     result = {}
 
-    # Calcolo posizioni planetarie
     for name, planet in planets.items():
         try:
-            lon, lat_, dist, speed = swe.calc_ut(jd, planet)[0]
-            sign_index = int(lon // 30)
-            degree = lon % 30
+            lon_p, lat_, dist, speed = swe.calc_ut(jd, planet)
+            sign_index = int(lon_p // 30)
+            degree = lon_p % 30
             sign = [
                 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
                 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
@@ -59,7 +59,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
         except Exception as e:
             result[name] = {"error": "calculation failed"}
 
-    # Calcolo Ascendente e Case
+    # Ascendente e case
     hsys = b'P'
     try:
         _, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
@@ -67,7 +67,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
         result["House Cusps"] = {
             f"House {i+1}": f"{c:.2f}°" for i, c in enumerate(cusps)
         }
-    except Exception as e:
+    except Exception:
         result["Ascendant"] = { "error": "could not calculate ascendant" }
         result["House Cusps"] = { "error": "could not calculate houses" }
 

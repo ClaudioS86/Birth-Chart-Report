@@ -6,6 +6,10 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
     year, month, day = map(int, birth_date.split("-"))
     hour, minute = map(int, birth_time.split(":"))
 
+    # Conversione valori in float
+    lat = float(lat)
+    lon = float(lon)
+
     try:
         tz_offset = float(timezone)
     except:
@@ -13,17 +17,12 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
 
     ut = hour + minute / 60.0 - tz_offset
 
-    # DEBUG LOG
     print(f"[DEBUG] UTC: {ut:.2f} | TZ: {tz_offset} | LAT: {lat} | LON: {lon}")
 
     if ut < 0 or ut > 24:
         raise ValueError("Invalid UTC time after timezone adjustment")
 
     jd = swe.julday(year, month, day, ut)
-
-    # Cast sicuro
-    lat = float(lat)
-    lon = float(lon)
 
     planets = {
         'Sun': swe.SUN,
@@ -67,7 +66,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
         result["House Cusps"] = {
             f"House {i+1}": f"{c:.2f}°" for i, c in enumerate(cusps)
         }
-    except Exception:
+    except Exception as e:
         result["Ascendant"] = { "error": "could not calculate ascendant" }
         result["House Cusps"] = { "error": "could not calculate houses" }
 

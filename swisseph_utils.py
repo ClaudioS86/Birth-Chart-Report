@@ -39,9 +39,9 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon):
             "degree": f"{degree:.2f}°"
         }
 
-    hsys = 'P'
-    _, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
-    result["Ascendant"] = { "degree": f"{ascmc[0]:.2f}°" }
-    result["House Cusps"] = {f"House {i+1}": f"{c:.2f}°" for i, c in enumerate(cusps)}
+    hsys = b'P'  # Placidus system
+_, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
+result["Ascendant"] = { "degree": f"{ascmc[0]:.2f}°" }
+result["House Cusps"] = {f"House {i+1}": f"{c:.2f}°" for i, c in enumerate(cusps)}
 
     return result

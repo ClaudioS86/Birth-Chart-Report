@@ -1,6 +1,6 @@
 import swisseph as swe
 
-swe.set_ephe_path('.')  # Adjust if needed
+swe.set_ephe_path('.')  # Adjust path if needed
 
 def calculate_birth_chart(birth_date, birth_time, lat, lon):
     year, month, day = map(int, birth_date.split("-"))
@@ -21,13 +21,16 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon):
         'Pluto': swe.PLUTO,
         'True Node': swe.TRUE_NODE
     }
-result = {}
-     for name, planet in planets.items():
+
+    result = {}
+    for name, planet in planets.items():
         calc_result = swe.calc_ut(jd, planet)
-if len(calc_result[0]) < 4:
+
+        if len(calc_result[0]) < 4:
             result[name] = {"error": "calculation failed"}
             continue
-lon, lat_, dist, speed = calc_result[0]
+
+        lon, lat_, dist, speed = calc_result[0]
         sign_index = int(lon // 30)
         degree = lon % 30
         sign = ['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio',

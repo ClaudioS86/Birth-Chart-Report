@@ -4,15 +4,14 @@ import swisseph as swe
 swe.set_ephe_path(".")
 
 def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
-    # Converte i valori di input
     lat = float(lat)
     lon = float(lon)
+
     try:
         tz_offset = float(timezone)
     except:
         tz_offset = 0.0
 
-    # Parsing data e ora
     year, month, day = map(int, birth_date.split("-"))
     hour, minute = map(int, birth_time.split(":"))
     ut = hour + minute / 60.0 - tz_offset
@@ -22,10 +21,8 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
     if ut < 0 or ut > 24:
         raise ValueError("Invalid UTC time after timezone adjustment")
 
-    # Calcolo del giorno giuliano
     jd = swe.julday(year, month, day, ut)
 
-    # Definizione dei pianeti principali
     planets = {
         'Sun': swe.SUN,
         'Moon': swe.MOON,
@@ -42,7 +39,6 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
 
     result = {}
 
-    # Calcolo posizioni planetarie
     for name, planet in planets.items():
         try:
             calc_result = swe.calc_ut(jd, planet)[0]
@@ -61,10 +57,9 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
         except Exception as e:
             result[name] = { "error": f"calculation failed: {str(e)}" }
 
-     # Calcolo Ascendente e Case
-    hsys = b'P'  # formato corretto
+    # ✅ Calcolo Ascendente e Case (senza swe.set_topo e con hsys = 'P')
+    hsys = 'P'
     try:
-        swe.set_topo(lon, lat, 0)  # aggiunto: imposta coordinate topografiche
         _, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
         result["Ascendant"] = { "degree": f"{ascmc[0]:.2f}°" }
         result["House Cusps"] = {

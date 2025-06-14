@@ -1,20 +1,33 @@
 from flask import Flask, request, jsonify
 from swisseph_utils import calculate_birth_chart
-import os
+import os  # <-- IMPORTANTE per leggere la porta da Railway
 
 app = Flask(__name__)
 
-@app.route("/birth-chart", methods=["POST"])
+@app.route('/birth-chart', methods=['POST'])
 def birth_chart():
-    data = request.get_json()
-    result = calculate_birth_chart(
-    data["birth_date"],
-    data["birth_time"],
-    data["lat"],
-    data["lon"],
-    data["timezone"]
-)
-    return jsonify(result)
+    try:
+        data = request.get_json()
 
+        birth_date = data["birth_date"]
+        birth_time = data["birth_time"]
+        lat = data["lat"]
+        lon = data["lon"]
+        timezone = data.get("timezone", "0")
+
+        result = calculate_birth_chart(
+            birth_date,
+            birth_time,
+            lat,
+            lon,
+            timezone
+        )
+
+        return jsonify(result), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))

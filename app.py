@@ -8,11 +8,12 @@ app = Flask(__name__)
 def birth_chart():
     data = request.get_json()
     result = calculate_birth_chart(
-        data["birth_date"],
-        data["birth_time"],
-        data["lat"],
-        data["lon"]
-    )
+    data["birth_date"],
+    data["birth_time"],
+    data["lat"],
+    data["lon"],
+    data["timezone"]
+)
     return jsonify(result)
 
 if __name__ == "__main__":

@@ -62,7 +62,7 @@ def calculate_birth_chart(birth_date, birth_time, lat, lon, timezone):
             result[name] = { "error": f"calculation failed: {str(e)}" }
 
     # Calcolo Ascendente e Case
-    hsys = 'P'  # stringa, non byte!
+    hsys = b'P'  # ATTENZIONE: deve essere in formato byte
     try:
         _, ascmc, _, cusps = swe.houses(jd, lat, lon, hsys)
         result["Ascendant"] = { "degree": f"{ascmc[0]:.2f}°" }

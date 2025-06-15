@@ -26,7 +26,9 @@ def birth_chart():
         return jsonify(result), 200
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    import traceback
+    print(traceback.format_exc())
+    return jsonify({"error": str(e)}), 500
 
 # ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY
 if __name__ == "__main__":

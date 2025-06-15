@@ -27,7 +27,7 @@ def birth_chart():
 
     except Exception as e:
         import traceback
-        print(traceback.format_exc())
+        print(traceback.format_exc())  # <-- fondamentale!
         return jsonify({"error": str(e)}), 500
 
 # ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY

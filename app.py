@@ -13,7 +13,7 @@ def birth_chart():
         birth_time = data["birth_time"]
         lat = data["lat"]
         lon = data["lon"]
-        timezone = data.get("timezone", "0")
+        timezone = float(data.get("timezone", 0)) / 3600
 
         result = calculate_birth_chart(
             birth_date,

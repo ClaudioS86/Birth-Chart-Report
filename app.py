@@ -26,8 +26,7 @@ def birth_chart():
         return jsonify(result), 200
 
     except Exception as e:
-        import traceback
-        print(traceback.format_exc())  # <-- fondamentale!
+        traceback.print_exc()  # <-- aggiungi questa riga
         return jsonify({"error": str(e)}), 500
 
 # ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY

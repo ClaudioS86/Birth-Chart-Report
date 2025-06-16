@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -y \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
  
-# Installa Astrolog precompilato da SourceForge
+# Installa Astrolog da archivio funzionante
 RUN apt-get update && apt-get install -y wget unzip && \
-    wget https://downloads.sourceforge.net/project/astrolog/astrolog/7.40/astrolog740linux.zip && \
-    unzip astrolog740linux.zip && \
+    wget https://www.astrolog.org/astrolog/astrolog7.30linux.zip && \
+    unzip astrolog7.30linux.zip && \
     chmod +x astrolog && \
     mv astrolog /usr/local/bin/
     

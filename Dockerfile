@@ -8,12 +8,17 @@ RUN apt-get update && apt-get install -y \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
  
-# Installa astrolog da repository pubblico alternativo
-RUN apt-get update && apt-get install -y wget unzip && \
-    wget https://www.astrolog.org/ftp/astrolog7.60linux.zip && \
-    unzip astrolog7.60linux.zip && \
-    chmod +x astrolog && \
-    mv astrolog /usr/local/bin/
+# Installa Astrolog da una repo pubblica GitHub (senza login)
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    gcc \
+    make && \
+    wget https://github.com/andrmoel/astrolog/archive/refs/heads/master.zip && \
+    unzip master.zip && \
+    cd astrolog-master/source && \
+    make && \
+    cp astrolog /usr/local/bin/
     
 WORKDIR /app
 

@@ -7,7 +7,12 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
-
+ 
+# Installa Astrolog
+RUN git clone https://github.com/rswwoo/astrolog.git /astrolog && \
+    cd /astrolog && make && \
+    cp astrolog /usr/local/bin/astrolog
+    
 WORKDIR /app
 
 COPY requirements.txt .

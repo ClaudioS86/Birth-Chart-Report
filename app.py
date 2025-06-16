@@ -29,7 +29,6 @@ def birth_chart():
         traceback.print_exc()  # <-- aggiungi questa riga
         return jsonify({"error": str(e)}), 500
         
-
 # ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))

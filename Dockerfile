@@ -8,17 +8,12 @@ RUN apt-get update && apt-get install -y \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
  
-# Installa Astrolog da una repo pubblica GitHub (senza login)
-RUN apt-get update && apt-get install -y \
-    wget \
-    unzip \
-    gcc \
-    make && \
-    wget https://github.com/andrmoel/astrolog/archive/refs/heads/master.zip && \
-    unzip master.zip && \
-    cd astrolog-master/source && \
-    make && \
-    cp astrolog /usr/local/bin/
+# Installa Astrolog precompilato da SourceForge
+RUN apt-get update && apt-get install -y wget unzip && \
+    wget https://downloads.sourceforge.net/project/astrolog/astrolog/7.40/astrolog740linux.zip && \
+    unzip astrolog740linux.zip && \
+    chmod +x astrolog && \
+    mv astrolog /usr/local/bin/
     
 WORKDIR /app
 

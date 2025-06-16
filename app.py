@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-from astrolog_runner import generate_astrolog_files
 from swisseph_utils import calculate_birth_chart
 import os  # <-- IMPORTANTE per leggere la porta da Railway
 
@@ -29,26 +28,7 @@ def birth_chart():
     except Exception as e:
         traceback.print_exc()  # <-- aggiungi questa riga
         return jsonify({"error": str(e)}), 500
-
-@app.route('/generate-report', methods=['POST'])
-def generate_astrolog_report():
-    try:
-        data = request.get_json()
-        birth_data = {
-            "birth_date": data["birth_date"],
-            "birth_time": data["birth_time"],
-            "latitude": data["lat"],
-            "longitude": data["lon"],
-            "timezone": float(data.get("timezone", 0)) / 3600
-        }
-
-        result = generate_astrolog_files(birth_data)
-        return jsonify(result), 200
-
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+        
 
 # ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY
 if __name__ == "__main__":

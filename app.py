@@ -1,5 +1,5 @@
-from astrolog_runner import generate_astrolog_files
 from flask import Flask, request, jsonify
+from astrolog_runner import generate_astrolog_files
 from swisseph_utils import calculate_birth_chart
 import os  # <-- IMPORTANTE per leggere la porta da Railway
 

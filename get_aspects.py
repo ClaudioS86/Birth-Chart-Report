@@ -1,5 +1,3 @@
-
-from swisseph import swe, swe_set_ephe_path, swe_calc_ut
 import swisseph as swe
 import math
 from datetime import datetime

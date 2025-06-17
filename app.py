@@ -24,7 +24,7 @@ def birth_chart():
             timezone
         )
 
-        @app.route('/aspects', methods=['POST'])
+@app.route('/aspects', methods=['POST'])
 def aspects():
     try:
         data = request.get_json()

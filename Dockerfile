@@ -8,10 +8,11 @@ RUN apt-get update && apt-get install -y \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
  
-RUN apt-get update && apt-get install -y gcc make && \
-    git clone https://github.com/andrmoel/astrolog.git && \
-    cd astrolog/source && make && \
-    cp astrolog /usr/local/bin/astrolog && \
+# Installa unzip e copia astrolog binario già pronto
+RUN apt-get update && apt-get install -y wget tar && \
+    wget https://astrolog-distro.s3.eu-west-1.amazonaws.com/astrolog-linux64.tar.gz && \
+    tar -xzf astrolog-linux64.tar.gz && \
+    mv astrolog /usr/local/bin/astrolog && \
     chmod +x /usr/local/bin/astrolog
     
 WORKDIR /app

@@ -10,7 +10,7 @@ def run_astrolog_aspects(birth_date, birth_time, latitude, longitude, timezone):
     time_str = dt.strftime("%H:%M")
 
     cmd = [
-        "astrolog", "-qa", "-n", "-v0", "-X",
+        "/usr/local/bin/astrolog", "-qa", "-n", "-v0", "-X",
         "--lon", str(longitude),
         "--lat", str(latitude),
         "--tz", str(timezone),
@@ -38,7 +38,7 @@ def generate_chart_image(birth_date, birth_time, latitude, longitude, timezone, 
     time_str = dt.strftime("%H:%M")
 
     cmd = [
-        "astrolog", "-Xn", "-i", "-z0", "-Q",
+        "/usr/local/bin/astrolog", "-Xn", "-i", "-z0", "-Q",
         "--lon", str(longitude),
         "--lat", str(latitude),
         "--tz", str(timezone),

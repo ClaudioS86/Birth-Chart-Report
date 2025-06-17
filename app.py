@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_file
+from get_aspects import run_aspect_calc  # già incluso se hai il file
 from swisseph_utils import calculate_birth_chart
 import os  # <-- IMPORTANTE per leggere la porta da Railway
 
@@ -16,6 +17,24 @@ def birth_chart():
         timezone = float(data.get("timezone", 0)) / 3600
 
         result = calculate_birth_chart(
+            birth_date,
+            birth_time,
+            lat,
+            lon,
+            timezone
+        )
+
+        @app.route('/aspects', methods=['POST'])
+def aspects():
+    try:
+        data = request.get_json()
+        birth_date = data["birth_date"]
+        birth_time = data["birth_time"]
+        lat = data["lat"]
+        lon = data["lon"]
+        timezone = float(data.get("timezone", 0))
+
+        result = run_aspect_calc(
             birth_date,
             birth_time,
             lat,

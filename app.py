@@ -24,12 +24,6 @@ def birth_chart():
             timezone
         )
 
-        return jsonify(result), 200
-
-    except Exception as e:
-        traceback.print_exc()  # <-- aggiungi questa riga
-        return jsonify({"error": str(e)}), 500
-
 @app.route('/aspects', methods=['POST'])
 def aspects():
     try:
@@ -51,8 +45,7 @@ def aspects():
         return jsonify(result), 200
 
     except Exception as e:
-        import traceback
-        traceback.print_exc()
+        traceback.print_exc()  # <-- aggiungi questa riga
         return jsonify({"error": str(e)}), 500
          
 # ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY

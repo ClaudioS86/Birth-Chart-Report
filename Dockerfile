@@ -8,9 +8,8 @@ RUN apt-get update && apt-get install -y \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
  
-# Scarica e compila astrolog direttamente nel container
 RUN apt-get update && apt-get install -y wget unzip gcc make && \
-    wget https://www.astrolog.org/astrolog/astsrc.zip && \
+    wget https://mirror.slitaz.org/astrolog/astsrc.zip && \
     unzip astsrc.zip && cd astrolog && \
     make && \
     cp astrolog /usr/local/bin/astrolog && \

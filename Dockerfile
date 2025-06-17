@@ -7,9 +7,6 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
- 
-COPY bin/astrolog /usr/local/bin/astrolog
-RUN chmod +x /usr/local/bin/astrolog
     
 WORKDIR /app
 

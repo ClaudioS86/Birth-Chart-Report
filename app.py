@@ -26,7 +26,11 @@ def birth_chart():
 
         return jsonify(result), 200
 
-@app.route('/aspects', methods=['POST'])
+    except Exception as e:
+        traceback.print_exc()  # <-- aggiungi questa riga
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/aspects', methods=['POST'])   # ⬅️ deve essere allineato a quello sopra
 def aspects():
     try:
         data = request.get_json()
@@ -48,7 +52,7 @@ def aspects():
         return jsonify(result), 200
 
     except Exception as e:
-        traceback.print_exc()  # <-- aggiungi questa riga
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
          
 # ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY

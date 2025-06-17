@@ -62,7 +62,11 @@ def calculate_aspects(jd, lat, lon):
                     })
     return aspects
 
-def run_aspect_calc(date, time, lat, lon):
-    swe.set_ephe_path("/usr/share/ephe")
-    jd = get_julian_day(date, time)
-    return calculate_aspects(jd, lat, lon)
+
+def run_aspect_calc(birth_date, birth_time, lat, lon, timezone):
+    planet_positions = get_planet_positions(birth_date, birth_time, lat, lon, timezone)
+    aspects = calculate_aspects(planet_positions)
+    return {
+        "positions": planet_positions,
+        "aspects": aspects
+    }

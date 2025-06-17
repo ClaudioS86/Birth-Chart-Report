@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, send_file
-from get_aspects import run_aspect_calc  # già incluso se hai il file
 from swisseph_utils import calculate_birth_chart
 import os  # <-- IMPORTANTE per leggere la porta da Railway
 
@@ -24,6 +23,14 @@ def birth_chart():
             timezone
         )
 
+        return jsonify(result), 200
+
+    except Exception as e:
+        traceback.print_exc()  # <-- aggiungi questa riga
+        return jsonify({"error": str(e)}), 500
+
+from get_aspects import run_aspect_calc  # già incluso se hai il file
+
 @app.route('/aspects', methods=['POST'])
 def aspects():
     try:
@@ -45,7 +52,8 @@ def aspects():
         return jsonify(result), 200
 
     except Exception as e:
-        traceback.print_exc()  # <-- aggiungi questa riga
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
          
 # ✅ QUESTA PARTE È FONDAMENTALE PER RAILWAY

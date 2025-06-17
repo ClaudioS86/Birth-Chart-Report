@@ -8,10 +8,9 @@ RUN apt-get update && apt-get install -y \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
  
-RUN apt-get update && apt-get install -y wget unzip gcc make && \
-    wget https://mirror.slitaz.org/astrolog/astsrc.zip && \
-    unzip astsrc.zip && cd astrolog && \
-    make && \
+RUN apt-get update && apt-get install -y gcc make && \
+    git clone https://github.com/andrmoel/astrolog.git && \
+    cd astrolog/source && make && \
     cp astrolog /usr/local/bin/astrolog && \
     chmod +x /usr/local/bin/astrolog
     

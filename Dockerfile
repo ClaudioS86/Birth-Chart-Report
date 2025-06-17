@@ -8,12 +8,8 @@ RUN apt-get update && apt-get install -y \
     libc-dev \
  && rm -rf /var/lib/apt/lists/*
  
-# Installa unzip e copia astrolog binario già pronto
-RUN apt-get update && apt-get install -y wget tar && \
-    wget https://astrolog-distro.s3.eu-west-1.amazonaws.com/astrolog-linux64.tar.gz && \
-    tar -xzf astrolog-linux64.tar.gz && \
-    mv astrolog /usr/local/bin/astrolog && \
-    chmod +x /usr/local/bin/astrolog
+COPY bin/astrolog /usr/local/bin/astrolog
+RUN chmod +x /usr/local/bin/astrolog
     
 WORKDIR /app
 

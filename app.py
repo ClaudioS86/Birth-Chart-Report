@@ -24,6 +24,8 @@ def birth_chart():
             timezone
         )
 
+        return jsonify(result), 200
+
 @app.route('/aspects', methods=['POST'])
 def aspects():
     try:

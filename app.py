@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, send_file
 from get_aspects import run_aspect_calc  # Importa la funzione
 from swisseph_utils import calculate_birth_chart
 from flask import send_file
-from chart_image import create_chart_image  # <-- nuova funzione da creare
+from chart_image import draw_chart
 import os  # <-- IMPORTANTE per leggere la porta da Railway
 import traceback
 

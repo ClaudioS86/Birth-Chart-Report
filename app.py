@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_file
 from get_aspects import run_aspect_calc  # Importa la funzione
 from swisseph_utils import calculate_birth_chart
 import os  # <-- IMPORTANTE per leggere la porta da Railway
+import traceback
 
 app = Flask(__name__)
 

@@ -1,4 +1,3 @@
-
 import swisseph as swe
 import matplotlib.pyplot as plt
 import os

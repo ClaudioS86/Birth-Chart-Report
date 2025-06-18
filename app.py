@@ -62,14 +62,26 @@ def aspects():
 def chart_image():
     try:
         data = request.get_json()
+
         birth_date = data["birth_date"]
         birth_time = data["birth_time"]
         lat = data["lat"]
         lon = data["lon"]
         timezone = float(data.get("timezone", 0))
+        name = data.get("name", "Client")  # 👈 opzionale: nome da mostrare
 
-        image_path = create_chart_image(birth_date, birth_time, lat, lon, timezone)
-        return send_file(image_path, mimetype='image/png')
+        output_path = "chart_output.png"
+        create_chart_image(
+            birth_date,
+            birth_time,
+            lat,
+            lon,
+            timezone,
+            name,
+            output_path
+        )
+
+        return send_file(output_path, mimetype='image/png')
 
     except Exception as e:
         import traceback

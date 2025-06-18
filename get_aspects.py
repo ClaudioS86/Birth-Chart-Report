@@ -36,6 +36,14 @@ def get_julian_day(date_str, time_str):
     hour, minute = map(int, time_str.split(":"))
     return swe.julday(year, month, day, hour + minute / 60.0)
 
+def get_planet_positions(birth_date, birth_time, lat, lon, timezone):
+    jd = get_julian_day(birth_date, birth_time) - (timezone / 24)
+    positions = {}
+    for name, planet_id in PLANETS.items():
+        pos, _ = swe.calc_ut(jd, planet_id)
+        positions[name] = pos[0]
+    return positions
+
 def calculate_aspects(jd, lat, lon):
     positions = {}
     for name, planet_id in PLANETS.items():

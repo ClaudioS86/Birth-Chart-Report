@@ -71,7 +71,7 @@ def calculate_aspects(jd, lat, lon):
 
 def run_aspect_calc(birth_date, birth_time, lat, lon, timezone):
     planet_positions = get_planet_positions(birth_date, birth_time, lat, lon, timezone)
-    aspects = calculate_aspects(planet_positions)
+    aspects = calculate_aspects(jd, lat, lon)
     return {
         "positions": planet_positions,
         "aspects": aspects

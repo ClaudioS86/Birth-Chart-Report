@@ -1,8 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 from get_aspects import run_aspect_calc  # Importa la funzione
 from swisseph_utils import calculate_birth_chart
-from flask import send_file
-from chart_image import create_chart_image  # <— inserisci all'inizio
 import os  # <-- IMPORTANTE per leggere la porta da Railway
 import traceback
 
@@ -55,26 +53,6 @@ def aspects():
         return jsonify(result), 200
 
     except Exception as e:
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
-
-@app.route('/chart-image', methods=['POST'])
-def chart_image_route():
-    try:
-        data = request.get_json()
-        birth_date = data["birth_date"]
-        birth_time = data["birth_time"]
-        lat = data["lat"]
-        lon = data["lon"]
-        timezone = float(data.get("timezone", 0))
-        name = data.get("name", "Client")
-
-        buf = create_chart_image(birth_date, birth_time, lat, lon, timezone, name)
-
-        return send_file(buf, mimetype='image/png', as_attachment=False, download_name='natal_chart.png')
-
-    except Exception as e:
-        import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
          
